@@ -10,7 +10,7 @@ namespace ArrayList
     {
         static void Main(string[] args)
         {
-            var list = new ArrayList(10);
+            var list = new ArrayList<int>(10);
             list.Add(1);
             list.Add(5);
             list.Add(2);
@@ -25,28 +25,28 @@ namespace ArrayList
         }
     }
 
-    interface SimpleArrayList
+    interface SimpleArrayList<T>
     {
-        void Add(int n); // toevoegen aan het einde van de lijst, mits de lijst niet vol is
-        int Get(int index); // haal de waarde op van een bepaalde index
-        void Set(int index, int n); // wijzig een item op een bepaalde index
+        void Add(T n); // toevoegen aan het einde van de lijst, mits de lijst niet vol is
+        T Get(int index); // haal de waarde op van een bepaalde index
+        void Set(int index, T n); // wijzig een item op een bepaalde index
         void Print(); // print de inhoud van de list
         void Clear(); // maak de list leeg
-        int CountOccurences(int n); // tel hoe vaak het gegeven getal voorkomt
+        int CountOccurences(T n); // tel hoe vaak het gegeven getal voorkomt
     }
 
-    class ArrayList : SimpleArrayList
+    class ArrayList<T> : SimpleArrayList<T> where T: new()
     {
-        int[] _array;
+        T[] _array;
         int _nextIndex;
 
         public ArrayList(int capacity)
         {
-            _array = new int[capacity];
+            _array = new T[capacity];
             _nextIndex = 0;
         }
 
-        public void Add(int n)
+        public void Add(T n)
         {
             if (_nextIndex != _array.Length)
             {
@@ -61,16 +61,16 @@ namespace ArrayList
 
         public void Clear()
         {
-            _array = new int[_array.Length];
+            _array = new T[_array.Length];
             _nextIndex = 0;
         }
 
-        public int CountOccurences(int n)
+        public int CountOccurences(T n)
         {
             var occurences = 0;
             for(var i= 0; i < _array.Length; i++)
             {
-                if (_array[i] == n)
+                if (EqualityComparer<T>.Default.Equals(_array[i], n))
                 {
                     occurences++;
                 }
@@ -78,7 +78,7 @@ namespace ArrayList
             return occurences;
         }
 
-        public int Get(int index)
+        public T Get(int index)
         {
             if (index < 0 || index > _array.Length) throw new Exception("Invalid index!");
             return _array[index];
@@ -94,7 +94,7 @@ namespace ArrayList
             Console.Write(Environment.NewLine);
         }
 
-        public void Set(int index, int n)
+        public void Set(int index, T n)
         {
             if (index < 0 || index > _array.Length) throw new Exception("Invalid index!");
             _array[index] = n;
