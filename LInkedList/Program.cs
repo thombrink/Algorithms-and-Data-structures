@@ -50,7 +50,7 @@ namespace LinkedList
 
     }
 
-    class Node<T>
+    public class Node<T>
     {
         public T Data { get; set; }
         public Node<T> Previous { get; set; }
@@ -62,11 +62,12 @@ namespace LinkedList
         }
     }
 
-    class SinglyLinkedList<T> where T : new()
+    public class SinglyLinkedList<T> where T : new()
     {
         public Node<T> First => _first;
         private Node<T> _first;
 
+        public int Length => _length;
         private int _length = 0;
 
         public SinglyLinkedList()
@@ -76,7 +77,7 @@ namespace LinkedList
 
         public void Add(T data)
         {
-            var temp = _first.Next;
+            var temp = _first;
             for (var i = 0; i < _length; i++)
             {
                 temp = temp.Next;
@@ -113,11 +114,22 @@ namespace LinkedList
             return true;
         }
 
+        public T Get(int index)
+        {
+            var temp = _first;
+            for (var i = 0; i < _length; i++)
+            {
+                temp = temp.Next;
+            }
+
+            return temp.Data;
+        }
+
         public bool Remove(int index)
         {
             if (index < 0 || index > _length) return false;
 
-            var temp = _first.Next;
+            var temp = _first;
             for (var i = 0; i < index -1; i++)
             {
                 temp = temp.Next;
@@ -131,7 +143,7 @@ namespace LinkedList
         }
     }
 
-    class DoublyLinkedList<T> where T : new()
+    public class DoublyLinkedList<T> where T : new()
     {
         public Node<T> First => _first;
 
