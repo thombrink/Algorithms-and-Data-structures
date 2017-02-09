@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26127.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SieveOfEratosthenes", "SieveOfEratosthenes\SieveOfEratosthenes.csproj", "{78A77691-2C51-4578-9E37-D166069C6D30}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedList", "LinkedList\LinkedList.csproj", "{37FB8C19-BCF1-481B-AB0E-60BDEA925189}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stack", "Stack\Stack.csproj", "{3BFB4FED-FEDD-45A6-B95B-593B52BC225E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queue", "Queue\Queue.csproj", "{9C6F9B82-2CA9-4BAB-97CA-EE85EF7FC968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{3BFB4FED-FEDD-45A6-B95B-593B52BC225E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BFB4FED-FEDD-45A6-B95B-593B52BC225E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BFB4FED-FEDD-45A6-B95B-593B52BC225E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6F9B82-2CA9-4BAB-97CA-EE85EF7FC968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6F9B82-2CA9-4BAB-97CA-EE85EF7FC968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6F9B82-2CA9-4BAB-97CA-EE85EF7FC968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6F9B82-2CA9-4BAB-97CA-EE85EF7FC968}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
