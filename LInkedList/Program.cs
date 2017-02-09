@@ -10,13 +10,23 @@ namespace LinkedList
     {
         static void Main(string[] args)
         {
-            var slist = new DoublyLinkedList<int>();
+            var slist = new SinglyLinkedList<int>();
+            //slist.Add(1);
+            //slist.Add(2);
+            //slist.Insert(2, 2);
+            //slist.Insert(2, 5);
+            //slist.Remove(2);
+            //slist.Insert(2, 3);
+
+            slist.Add(0);
             slist.Add(1);
             slist.Add(2);
-            slist.Insert(2, 2);
-            slist.Insert(2, 5);
+            slist.Get(2);
             slist.Remove(2);
-            slist.Insert(2, 3);
+            slist.Get(1);
+            slist.Remove(1);
+            slist.Get(0);
+            slist.Remove(0);
 
             var currentSItem = slist.First;
             while (currentSItem != null)
@@ -46,8 +56,6 @@ namespace LinkedList
 
             Console.ReadKey();
         }
-
-
     }
 
     public class Node<T>
@@ -83,8 +91,7 @@ namespace LinkedList
                 temp = temp.Next;
             }
 
-            var newNode = new Node<T>(data);
-            temp.Next = newNode;
+            temp.Next = new Node<T>(data);
 
             _length++;
         }
@@ -99,8 +106,8 @@ namespace LinkedList
                 return true;
             }
 
-            var temp = _first.Next;
-            for (var i = 0; i < index -1; i++)
+            var temp = _first;
+            for (var i = 0; i < index - 1; i++)
             {
                 temp = temp.Next;
             }
@@ -117,12 +124,12 @@ namespace LinkedList
         public T Get(int index)
         {
             var temp = _first;
-            for (var i = 0; i < _length; i++)
+            for (var i = 0; i < _length - 1; i++)
             {
                 temp = temp.Next;
             }
 
-            return temp.Data;
+            return temp.Next.Data;
         }
 
         public bool Remove(int index)
@@ -130,12 +137,12 @@ namespace LinkedList
             if (index < 0 || index > _length) return false;
 
             var temp = _first;
-            for (var i = 0; i < index -1; i++)
+            for (var i = 0; i < index; i++)
             {
                 temp = temp.Next;
             }
 
-            temp.Next = temp.Next.Next;
+            temp.Next = null;
 
             _length--;
 
