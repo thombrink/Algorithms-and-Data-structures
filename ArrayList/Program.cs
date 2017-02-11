@@ -10,7 +10,7 @@ namespace ArrayList
     {
         static void Main(string[] args)
         {
-            var list = new ArrayList<int>(10);
+            var list = new ArrayList<int>(2);
             list.Add(1);
             list.Add(5);
             list.Add(2);
@@ -18,6 +18,10 @@ namespace ArrayList
             list.Set(0, 2);
             list.Print();
             Console.WriteLine(list.CountOccurences(2) == 2);
+
+            Console.WriteLine(list.GetMax() == 5);
+            Console.WriteLine(list.GetMaxIndex() == 2);
+
             list.Clear();
             Console.WriteLine(list.CountOccurences(2) == 0);
 
@@ -35,28 +39,37 @@ namespace ArrayList
         int CountOccurences(T n); // tel hoe vaak het gegeven getal voorkomt
     }
 
-    class ArrayList<T> : SimpleArrayList<T> where T: new()
+    class ArrayList<T> : SimpleArrayList<T> where T : new()
     {
         T[] _array;
-        int _nextIndex;
+        int _nextIndex = 0;
+
+        public ArrayList()
+        {
+            _array = new T[4];
+        }
 
         public ArrayList(int capacity)
         {
             _array = new T[capacity];
-            _nextIndex = 0;
         }
 
         public void Add(T n)
         {
-            if (_nextIndex != _array.Length)
+            if (_nextIndex == _array.Length)
             {
-                _array[_nextIndex] = n;
-                _nextIndex++;
+                //Resize
+                var newArray = new T[_array.Length * 2];
+                for (var i = 0; i < _array.Length; i++)
+                {
+                    newArray[i] = _array[i];
+                }
+
+                _array = newArray;
             }
-            else
-            {
-                throw new Exception("The array has reached its limit!");
-            }
+
+            _array[_nextIndex] = n;
+            _nextIndex++;
         }
 
         public void Clear()
@@ -68,7 +81,7 @@ namespace ArrayList
         public int CountOccurences(T n)
         {
             var occurences = 0;
-            for(var i= 0; i < _array.Length; i++)
+            for (var i = 0; i < _array.Length; i++)
             {
                 if (EqualityComparer<T>.Default.Equals(_array[i], n))
                 {
@@ -84,6 +97,36 @@ namespace ArrayList
             return _array[index];
         }
 
+        public void Set(int index, T n)
+        {
+            if (index < 0 || index > _array.Length) throw new Exception("Invalid index!");
+            _array[index] = n;
+        }
+
+        public int GetMaxIndex()
+        {
+            return _nextIndex - 1;
+        }
+
+        public T GetMax()
+        {
+            if (_nextIndex == 0) throw new Exception("Oh oh there are no items in the list!");
+
+            dynamic maxVal = Get(0);
+
+            for (var i = 1; i < _array.Length; i++)
+            {
+                var newVal = (dynamic)_array[i];
+
+                if (newVal > maxVal)
+                {
+                    maxVal = newVal;
+                }
+            }
+
+            return maxVal;
+        }
+
         public void Print()
         {
             Console.Write("Itemcount: " + _nextIndex + ", Items: ");
@@ -92,12 +135,6 @@ namespace ArrayList
                 Console.Write(_array[i] + ", ");
             }
             Console.Write(Environment.NewLine);
-        }
-
-        public void Set(int index, T n)
-        {
-            if (index < 0 || index > _array.Length) throw new Exception("Invalid index!");
-            _array[index] = n;
         }
     }
 }

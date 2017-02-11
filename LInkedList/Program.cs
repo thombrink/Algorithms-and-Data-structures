@@ -21,12 +21,12 @@ namespace LinkedList
             slist.Add(0);
             slist.Add(1);
             slist.Add(2);
-            slist.Get(2);
-            slist.Remove(2);
-            slist.Get(1);
-            slist.Remove(1);
-            slist.Get(0);
-            slist.Remove(0);
+            Console.WriteLine("get index 1: " + slist.Get(1));
+            //slist.Remove(2);
+            //slist.Get(1);
+            //slist.Remove(1);
+            //slist.Get(0);
+            //slist.Remove(0);
 
             var currentSItem = slist.First;
             while (currentSItem != null)
@@ -35,6 +35,9 @@ namespace LinkedList
 
                 currentSItem = currentSItem.Next;
             }
+
+            Console.WriteLine("Max index: " + slist.GetMaxIndex());
+            Console.WriteLine("Max: " + slist.GetMax());
 
             Console.WriteLine("next list");
 
@@ -123,8 +126,10 @@ namespace LinkedList
 
         public T Get(int index)
         {
+            if (index < 0 || index > _length - 1) throw new Exception("Oh oh the given index is either to small or toooo big!");
+
             var temp = _first;
-            for (var i = 0; i < _length - 1; i++)
+            for (var i = 0; i < index; i++)
             {
                 temp = temp.Next;
             }
@@ -147,6 +152,32 @@ namespace LinkedList
             _length--;
 
             return true;
+        }
+
+        public int GetMaxIndex()
+        {
+            return _length - 1;
+        }
+
+        public T GetMax()
+        {
+            if (_length == 0) throw new Exception("Oh oh there are no items in the list!");
+
+            var temp = _first;
+            dynamic maxVal = temp.Data;
+            for (var i = 0; i < _length -1; i++)
+            {
+                temp = temp.Next;
+
+                var newVal = (dynamic)temp.Data;
+
+                if (newVal > maxVal)
+                {
+                    maxVal = newVal;
+                }
+            }
+
+            return (T)maxVal;
         }
     }
 
