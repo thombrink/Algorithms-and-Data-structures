@@ -38,6 +38,7 @@ namespace LinkedList
 
             Console.WriteLine("Max index: " + slist.GetMaxIndex());
             Console.WriteLine("Max: " + slist.GetMax());
+            Console.WriteLine("Total sum: " + slist.CumulatieveSum(slist.GetMax()));
 
             Console.WriteLine("next list");
 
@@ -165,7 +166,7 @@ namespace LinkedList
 
             var temp = _first;
             dynamic maxVal = temp.Data;
-            for (var i = 0; i < _length -1; i++)
+            for (var i = 0; i < _length; i++)
             {
                 temp = temp.Next;
 
@@ -178,6 +179,51 @@ namespace LinkedList
             }
 
             return (T)maxVal;
+        }
+
+        public void PrintMovingAverage(int n)
+        {
+            if (_length == 0) throw new Exception("Oh oh there are no items in the list!");
+
+            var temp = _first;
+            dynamic total = 0;
+
+            var tempArr = new T[_length];
+
+            for (var i = 0; i < _length; i++)
+            {
+                temp = temp.Next;
+
+                var newVal = (dynamic)temp.Data;
+
+                total += newVal;
+                tempArr[i] = newVal;
+
+                if (i < n)
+                {
+                    Console.Write(total / (i + 1) + " ");
+                }
+                else
+                {
+                    total -= tempArr[i - n];
+                    Console.Write(total / n + " ");
+                }
+            }
+        }
+
+        public int CumulatieveSum(int index)
+        {
+            var temp = _first;
+            dynamic currentSum = 0;
+
+            for (var i = 0; i < index + 1; i++)
+            {
+                temp = temp.Next;
+
+                currentSum += (dynamic)temp.Data;
+            }
+
+            return currentSum;
         }
     }
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F60E4E91-2534-4925-958A-FBB78846CDA8}</ProjectGuid>
+    <ProjectGuid>{07945CA9-3D9F-4A8D-AA5E-BA8D5CFEAC4B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MovingAverage</RootNamespace>
-    <AssemblyName>MovingAverage</AssemblyName>
+    <RootNamespace>_2DArrays</RootNamespace>
+    <AssemblyName>2DArrays</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,12 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LinkedList\LinkedList.csproj">
-      <Project>{37fb8c19-bcf1-481b-ab0e-60bdea925189}</Project>
-      <Name>LinkedList</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
