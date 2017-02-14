@@ -13,7 +13,7 @@ namespace IntegerDividing
             Console.WriteLine(IntegerDividing1(15, 5));
             //Console.WriteLine(IntegerDividing1(16789, 5));
             Console.WriteLine(IntegerDividing2(16789, 5));
-            Console.WriteLine(IntegerDividing3(16789, 5));
+            Console.WriteLine(IntegerDividing3(133, 4));
 
             Console.ReadKey();
         }
@@ -63,14 +63,45 @@ namespace IntegerDividing
 
         static int IntegerDividing3(int x, int y)
         {
+            Console.Write(Environment.NewLine);
+            Console.WriteLine($"{x} / {y}");
+
             //var test = Math.Floor(Math.Log10(x) + 1);
             var intString = x.ToString();
+            var even = intString.Length % 2 == 0;
+            var rest = 0;
+            string output = string.Empty;
             for (var i = 0; i < intString.Length; i+=2)
             {
-                var startValue = int.Parse(x.ToString().Substring(i, 2));
-                Console.WriteLine(startValue);
+                var divideCount = 1;
+                string subString = rest > 0 ? rest.ToString() : string.Empty;
+                if(!even && i == intString.Length - 1)
+                {
+                    subString += x.ToString().Substring(i, 1);
+                } else
+                {
+                    subString += x.ToString().Substring(i, 2);
+                }
+
+                var startValue = int.Parse(subString);
+                var currentVal = y;
+                while (startValue > currentVal)
+                {
+                    currentVal += y;
+                    divideCount++;
+                }
+
+                if (startValue != currentVal)
+                {
+                    divideCount--;
+                }
+
+                rest = startValue - (currentVal - y);
+                output += divideCount.ToString();
+
+                Console.WriteLine(output);
             }
-            return 0;
+            return int.Parse(output);
         }
     }
 }
