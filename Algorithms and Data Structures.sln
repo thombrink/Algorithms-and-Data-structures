@@ -33,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegerDividing", "IntegerD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Root", "Root\Root.csproj", "{B094BF99-2571-4C08-8FD6-877F0521D49F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recursive", "Recursive\Recursive.csproj", "{D2987F63-083E-4FEE-B281-174C78F1E78F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binary", "Binary\Binary.csproj", "{E468C0E4-E4F4-429E-8755-D4B57FCD71F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +103,14 @@ Global
 		{B094BF99-2571-4C08-8FD6-877F0521D49F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B094BF99-2571-4C08-8FD6-877F0521D49F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B094BF99-2571-4C08-8FD6-877F0521D49F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2987F63-083E-4FEE-B281-174C78F1E78F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2987F63-083E-4FEE-B281-174C78F1E78F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2987F63-083E-4FEE-B281-174C78F1E78F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2987F63-083E-4FEE-B281-174C78F1E78F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E468C0E4-E4F4-429E-8755-D4B57FCD71F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E468C0E4-E4F4-429E-8755-D4B57FCD71F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E468C0E4-E4F4-429E-8755-D4B57FCD71F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E468C0E4-E4F4-429E-8755-D4B57FCD71F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
