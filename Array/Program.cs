@@ -22,6 +22,8 @@ namespace _2DArrays
             //FindNearest(result2DArray1, 10, 1, out nearestX, out nearestY);
             var nearestPoint = FindNearest(result2DArray1, 10, 1);
 
+            var max = GetMaxRecursive(test1DArray1);
+
             Console.ReadKey();
         }
 
@@ -137,6 +139,25 @@ namespace _2DArrays
             }
 
             return nearestPoint;
+        }
+
+        static int GetMaxRecursive(int[] array)
+        {
+            if (array.Length == 0) return 0;
+
+            var maxVal = array[array.Length - 1];
+
+            var newArray = new int[array.Length - 1];
+            Array.Copy(array, newArray, newArray.Length);            
+
+            var newVal = GetMaxRecursive(newArray);
+
+            if (((IComparable)newVal).CompareTo(maxVal) > 0)
+            {
+                maxVal = newVal;
+            }
+
+            return maxVal;
         }
     }
 }

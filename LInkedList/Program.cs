@@ -11,10 +11,10 @@ namespace LinkedList
         static void Main(string[] args)
         {
             var slist = new SinglyLinkedList<int>();
-            //slist.Add(1);
-            //slist.Add(2);
-            //slist.Insert(2, 2);
-            //slist.Insert(2, 5);
+            slist.Add(10);
+            slist.Add(20);
+            slist.Insert(2, 2);
+            slist.Insert(2, 5);
             //slist.Remove(2);
             //slist.Insert(2, 3);
 
@@ -38,19 +38,54 @@ namespace LinkedList
 
             Console.WriteLine("Max index: " + slist.GetMaxIndex());
             Console.WriteLine("Max: " + slist.GetMax());
-            Console.WriteLine("Total sum: " + slist.CumulatieveSum(slist.GetMax()));
+            Console.WriteLine("Total sum: " + slist.CumulatieveSum(slist.GetMaxIndex()));
+            Console.WriteLine("Max recursive: " + slist.GetMaxRecursive());
 
             Console.WriteLine("next list");
 
             var dlist = new DoublyLinkedList<int>();
-            dlist.Add(1);
+            /*dlist.Add(1);
+            dlist.Add(8);
             dlist.Add(2);
+            dlist.Add(6);
+            dlist.Add(7);
             dlist.Insert(2, 2);
             dlist.Insert(2, 5);
             dlist.Remove(2);
-            dlist.Insert(2, 3);
+            dlist.Insert(2, 3);*/
+
+            dlist.Add(3);
+            dlist.Add(2);
+            dlist.Add(1);
+            dlist.Add(3);
+            dlist.Add(2);
+            dlist.Add(1);
 
             var currentDItem = dlist.First;
+            while (currentDItem != null)
+            {
+                Console.WriteLine(currentDItem.Data);
+
+                currentDItem = currentDItem.Next;
+            }
+
+            Console.WriteLine("list ordered");
+
+            dlist.InsertionSort();
+
+            currentDItem = dlist.First;
+            while (currentDItem != null)
+            {
+                Console.WriteLine(currentDItem.Data);
+
+                currentDItem = currentDItem.Next;
+            }
+
+            Console.WriteLine("reverse index 2 and 5");
+
+            dlist.Inverse(2, 5);
+
+            currentDItem = dlist.First;
             while (currentDItem != null)
             {
                 Console.WriteLine(currentDItem.Data);
@@ -64,9 +99,44 @@ namespace LinkedList
 
     public class Node<T>
     {
+        private Node<T> _next { get; set; }
+        private Node<T> _previous { get; set; }
+
+        public Node<T> Previous
+        {
+            get
+            {
+                return _previous;
+                //return IsReversed ? _next : _previous;
+            }
+            set
+            {
+                if (IsReversed)
+                    _next = value;
+                else
+                    _previous = value;
+            }
+        }
+        public Node<T> Next
+        {
+            get
+            {
+                return _next;
+                //return IsReversed ? _previous : _next;
+            }
+            set
+            {
+                if (IsReversed)
+                    _previous = value;
+                else
+                    _next = value;
+            }
+        }
+        //public Node<T> Previous { get; set; }
+        //public Node<T> Next { get; set; }
         public T Data { get; set; }
-        public Node<T> Previous { get; set; }
-        public Node<T> Next { get; set; }
+        public bool IsReversed { get; set; }
+
 
         public Node(T data)
         {
@@ -165,20 +235,38 @@ namespace LinkedList
             if (_length == 0) throw new Exception("Oh oh there are no items in the list!");
 
             var temp = _first;
-            dynamic maxVal = temp.Data;
+            var maxVal = temp.Data;
             for (var i = 0; i < _length; i++)
             {
                 temp = temp.Next;
 
-                var newVal = (dynamic)temp.Data;
-
-                if (newVal > maxVal)
+                if (((IComparable)temp.Data).CompareTo(maxVal) > 0)
                 {
-                    maxVal = newVal;
+                    maxVal = temp.Data;
                 }
             }
 
-            return (T)maxVal;
+            return maxVal;
+        }
+
+        public T GetMaxRecursive(Node<T> node = null)
+        {
+            if (_length == 0) throw new Exception("Oh oh there are no items in the list!");
+
+            if (node == null) node = _first;
+
+            if (node.Next == null) return default(T);
+
+            var maxVal = node.Next.Data;
+
+            var newVal = GetMaxRecursive(node.Next);
+
+            if (((IComparable)newVal).CompareTo(maxVal) > 0)
+            {
+                maxVal = newVal;
+            }
+
+            return maxVal;
         }
 
         public void PrintMovingAverage(int n)
@@ -227,14 +315,15 @@ namespace LinkedList
         }
     }
 
-    public class DoublyLinkedList<T> where T : new()
+    public class DoublyLinkedList<T> where T : IComparable, new()
     {
-        public Node<T> First => _first;
-
         private Node<T> _first;
         private Node<T> _last;
 
         private int _length = 0;
+
+        public Node<T> First => _first;
+        public int Length => _length;
 
         public DoublyLinkedList()
         {
@@ -298,6 +387,98 @@ namespace LinkedList
             _length--;
 
             return true;
+        }
+
+        public void InsertionSort()
+        {
+            if (_length == 0) throw new Exception("Oh oh there are no items in the list!");
+
+            var node = _first.Next;
+
+            for (var i = 0; i < _length; i++)
+            {
+                var temp = node.Data;
+
+                var curr = node;
+                for (var j = i; j > 0 && temp.CompareTo(curr.Previous.Data) < 0; j--) {
+                    curr.Data = curr.Previous.Data;
+
+                    curr = curr.Previous;
+                }
+
+                curr.Data = temp;
+
+                node = node.Next;
+            }
+        }
+
+        public void Inverse(int startIndex, int endIndex)
+        {
+            var currNode = _first.Next;
+            Node<T> start = null;
+            //T startData = default(T);
+
+            for (var i = 0; i < endIndex; i++)
+            {
+                if (i == startIndex) start = currNode; //startData = currNode.Data;
+
+                currNode = currNode.Next;
+            }
+
+            var endData = currNode.Data;
+
+            currNode.Data = start.Data;
+
+            start.Data = endData;
+
+            //currNode.Previous = start.Previous;
+            //currNode.Next = start.Next;
+            //currNode.Data = start.Data;
+
+            //start.Previous = stop.Previous;
+            //start.Next = stop.Next;
+            //start.Data = stop.Data;
+        }
+
+        public int GetMaxValueIndex(int maxIndex)
+        {
+            if (_length == 0) throw new Exception("Oh oh there are no items in the list!");
+
+            var temp = _first;
+            var maxVal = temp.Data;
+            var maxValIndex = 0;
+            for (var i = 0; i < maxIndex; i++)
+            {
+                if (((IComparable)temp.Data).CompareTo(maxVal) > 0)
+                {
+                    maxVal = temp.Data;
+                    maxValIndex = i;
+                }
+
+                temp = temp.Next;
+            }
+
+            return maxValIndex;
+        }
+
+        //TODO: Werkend maken.................
+        public void Flip(int endIndex)
+        {
+            var currNode = _first.Next;
+            var prevNode = _first;
+
+            for (var i = 0; i < endIndex; i++)
+            {
+                var changingNode = currNode;
+
+                currNode = currNode.Next;
+
+                changingNode.IsReversed = !changingNode.IsReversed;
+                changingNode.Next = changingNode;
+
+                //changingNode.Next = currNode.Previous;
+                //changingNode.Previous = currNode.Next;
+            }
         }
     }
 }
