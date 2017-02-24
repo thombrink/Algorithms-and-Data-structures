@@ -12,9 +12,9 @@ namespace PancakeSort
         static void Main(string[] args)
         {
             var dlist = new DoublyLinkedList<int>();
-            dlist.Add(6);
-            dlist.Add(5);
             dlist.Add(4);
+            dlist.Add(5);
+            dlist.Add(6);
             dlist.Add(3);
             dlist.Add(2);
             dlist.Add(1);
@@ -32,15 +32,16 @@ namespace PancakeSort
             Console.ReadKey();
         }
 
+        //TODO: make this working :)
         private static DoublyLinkedList<int> PancakeSort(DoublyLinkedList<int> list)
         {
-            //for (var i = list.Length - 1; i > 0; i--)
-            //{
-                //list.Flip(list.GetMaxValueIndex(i));
-                //list.Flip(i);
-            //}
+            for (var i = list.Length - 1; i > 2; i--)
+            {
+                list.Flip(list.GetMaxValueIndex(i));
+                list.Flip(i);
+            }
 
-            list.Flip(list.Length);
+            //list.Flip(3);
 
             return list;
         }

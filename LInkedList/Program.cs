@@ -83,7 +83,7 @@ namespace LinkedList
 
             Console.WriteLine("reverse index 2 and 5");
 
-            dlist.Inverse(2, 5);
+            dlist.Swap(2, 5);
 
             currentDItem = dlist.First;
             while (currentDItem != null)
@@ -106,8 +106,8 @@ namespace LinkedList
         {
             get
             {
-                return _previous;
-                //return IsReversed ? _next : _previous;
+                //return _previous;
+                return IsReversed ? _next : _previous;
             }
             set
             {
@@ -121,8 +121,8 @@ namespace LinkedList
         {
             get
             {
-                return _next;
-                //return IsReversed ? _previous : _next;
+                //return _next;
+                return IsReversed ? _previous : _next;
             }
             set
             {
@@ -412,7 +412,7 @@ namespace LinkedList
             }
         }
 
-        public void Inverse(int startIndex, int endIndex)
+        public void Swap(int startIndex, int endIndex)
         {
             var currNode = _first.Next;
             Node<T> start = null;
@@ -461,24 +461,27 @@ namespace LinkedList
             return maxValIndex;
         }
 
-        //TODO: Werkend maken.................
         public void Flip(int endIndex)
         {
-            var currNode = _first.Next;
-            var prevNode = _first;
+            var firstNode = _first.Next;
+            var currNode = firstNode;
+            var nextNode = currNode.Next;
 
             for (var i = 0; i < endIndex; i++)
             {
-                var changingNode = currNode;
+                nextNode = currNode.Next;
+                currNode.IsReversed = !currNode.IsReversed;
 
-                currNode = currNode.Next;
-
-                changingNode.IsReversed = !changingNode.IsReversed;
-                changingNode.Next = changingNode;
-
-                //changingNode.Next = currNode.Previous;
-                //changingNode.Previous = currNode.Next;
+                currNode = nextNode;
             }
+
+            //Fix the first null node
+            _first.Next = currNode.Previous;
+            currNode.Previous.Previous = _first;
+
+            //Fix the list if not the whole list is flipped
+            currNode.Previous = firstNode;
+            currNode.Previous.Next = currNode;
         }
     }
 }
