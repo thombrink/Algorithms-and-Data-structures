@@ -447,15 +447,17 @@ namespace LinkedList
             var temp = _first;
             var maxVal = temp.Data;
             var maxValIndex = 0;
-            for (var i = 0; i < maxIndex; i++)
+            var currIndex = 0;
+
+            for (var i = 0; i <= maxIndex; i++)
             {
+                temp = temp.Next;
+
                 if (((IComparable)temp.Data).CompareTo(maxVal) > 0)
                 {
                     maxVal = temp.Data;
                     maxValIndex = i;
                 }
-
-                temp = temp.Next;
             }
 
             return maxValIndex;
@@ -467,7 +469,7 @@ namespace LinkedList
             var currNode = firstNode;
             var nextNode = currNode.Next;
 
-            for (var i = 0; i < endIndex; i++)
+            for (var i = 0; i <= endIndex; i++)
             {
                 nextNode = currNode.Next;
                 currNode.IsReversed = !currNode.IsReversed;
@@ -482,6 +484,17 @@ namespace LinkedList
             //Fix the list if not the whole list is flipped
             currNode.Previous = firstNode;
             currNode.Previous.Next = currNode;
+        }
+
+        public override string ToString() {
+            var sb = new StringBuilder();
+            var currentDItem = _first;
+            while (currentDItem != null) {
+                sb.Append(currentDItem.Data + ", ");
+
+                currentDItem = currentDItem.Next;
+            }
+            return sb.ToString();
         }
     }
 }

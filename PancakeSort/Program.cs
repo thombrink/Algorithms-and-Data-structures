@@ -5,43 +5,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PancakeSort
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var dlist = new DoublyLinkedList<int>();
-            dlist.Add(4);
+namespace PancakeSort {
+    class Program {
+        static void Main(string[] args) {
+            var dlist = new DoublyLinkedList<int>();  
             dlist.Add(5);
-            dlist.Add(6);
-            dlist.Add(3);
             dlist.Add(2);
+            dlist.Add(6);
+            dlist.Add(4);
+            dlist.Add(3);         
             dlist.Add(1);
+
+            Console.WriteLine("-" + dlist.ToString());
 
             dlist = PancakeSort(dlist);
 
-            var currentDItem = dlist.First;
-            while (currentDItem != null)
-            {
-                Console.WriteLine(currentDItem.Data);
-
-                currentDItem = currentDItem.Next;
-            }
+            Console.WriteLine("-" + dlist.ToString());
 
             Console.ReadKey();
         }
 
-        //TODO: make this working :)
-        private static DoublyLinkedList<int> PancakeSort(DoublyLinkedList<int> list)
-        {
-            for (var i = list.Length - 1; i > 2; i--)
-            {
-                list.Flip(list.GetMaxValueIndex(i));
+        private static DoublyLinkedList<int> PancakeSort(DoublyLinkedList<int> list) {
+            for (var i = list.Length - 1; i > 0; i--) {
+                var maxValIndex = list.GetMaxValueIndex(i);
+                list.Flip(maxValIndex);
+                Console.WriteLine("--" + list.ToString() + " fliped row until max val at index " + maxValIndex);
                 list.Flip(i);
+                Console.WriteLine("--" + list.ToString() + " fliped row");
             }
-
-            //list.Flip(3);
 
             return list;
         }

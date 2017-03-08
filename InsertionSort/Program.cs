@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InsertionSort
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -15,7 +15,7 @@ namespace InsertionSort
             Console.ReadKey();
         }
 
-        static int[] InsertionSort(int[] a)
+        public static int[] InsertionSort(int[] a)
         {
             for (int p = 1; p < a.Length; p++)
             {
