@@ -11,16 +11,19 @@ namespace AvlTree {
 
             var arrtest = new int[] { 1, 5, 7, 4, 8, 2, 6 };
 
+            var arr15a = new int[] { 20, 4, 15 };
+            var arr15b = new int[] { 20, 4, 26, 3, 9, 15 };
+            var arr15c = new int[] { 20, 4, 26, 3, 21, 9, 30, 2, 7, 11, 15 };
+
             var arr8a = new int[] { 20, 4, 8 };
             var arr8b = new int[] { 20, 4, 26, 3, 9, 8 };
             var arr8c = new int[] { 20, 4, 26, 3, 21, 9, 30, 2, 7, 11, 8 };
 
             var tree = new AvlTree<int>();
-            foreach (var i in arr8c) {
+            foreach (var i in arr15c) {
                 tree.Add(i);
-            }
-
-            tree.Print();
+                tree.Print();
+            }                
 
             Console.ReadKey();
         }
@@ -28,9 +31,12 @@ namespace AvlTree {
 
     class AvlTree<T> where T : IComparable<T> {
         public TreeNode<T> RootNode { get; set; }
+        public Direction Direction { get; set; } 
 
         public void Add(T data) {
             RootNode = Add(RootNode, data);
+
+            Direction = Direction.None;
 
             /*TreeNode<T> previousNode = null;
             TreeNode<T> currentNode = RootNode;
@@ -69,7 +75,7 @@ namespace AvlTree {
             Console.WriteLine("Hoi!");*/
         }
 
-        public TreeNode<T> Add(TreeNode<T> currentNode, T data) {
+        private TreeNode<T> Add(TreeNode<T> currentNode, T data) {
             if (currentNode == null) {
                 return new TreeNode<T>(data);
             }
@@ -78,28 +84,33 @@ namespace AvlTree {
 
             if (currentNode.Data.CompareTo(data) > 0) {
                 currentNode.LeftNode = Add(currentNode.LeftNode, data);
-                currentNode.LeftChildCount++;
+
+                IncreseHeight(currentNode, Direction.Left);
+                //currentNode.LeftHeight++;
             }
             else {
                 childGoneRight = true;
 
                 currentNode.RightNode = Add(currentNode.RightNode, data);
-                currentNode.RightChildCount++;
+
+                IncreseHeight(currentNode, Direction.Right);
+                //currentNode.RightHeight++;
             }
 
-            if (Math.Abs(currentNode.LeftChildCount - currentNode.RightChildCount) > 1) {
-                //Console.WriteLine("Stop! Wait a minute, I'm unbalanced!");
+            if (Math.Abs((currentNode.LeftNode?.Height ?? 0) - (currentNode.RightNode?.Height ?? 0)) > 1) {
+            //if (Math.Abs(currentNode.LeftHeight - currentNode.RightHeight) > 1) {
+                    //Console.WriteLine("Stop! Wait a minute, I'm unbalanced!");
 
-                // left left
-                if (!childGoneRight && currentNode.LeftNode.Data.CompareTo(data) > 0) {
+                    // left left
+                    if (!childGoneRight && currentNode.LeftNode.Data.CompareTo(data) > 0) {
                     #region Normal rotation
                     var moveUpNode = currentNode.LeftNode;
 
                     currentNode.LeftNode = moveUpNode.RightNode;
-                    currentNode.LeftChildCount = moveUpNode.RightChildCount;//correct?
+                    currentNode.LeftHeight = moveUpNode.RightHeight;
 
                     moveUpNode.RightNode = currentNode;
-                    moveUpNode.RightChildCount = currentNode.RightChildCount + 1;
+                    moveUpNode.RightHeight = currentNode.RightHeight + 1;
 
                     currentNode = moveUpNode;
                     #endregion
@@ -112,10 +123,10 @@ namespace AvlTree {
                     if (moveUpChildNode != null) {
                         // disconnect the move up node
                         currentNode.LeftNode.RightNode = moveUpChildNode.LeftNode;
-                        currentNode.LeftNode.RightChildCount = moveUpChildNode.LeftChildCount;//correct?
+                        currentNode.LeftNode.RightHeight = moveUpChildNode.LeftHeight;
 
                         moveUpChildNode.LeftNode = currentNode.LeftNode;
-                        moveUpChildNode.LeftChildCount = currentNode.LeftNode.LeftChildCount + 1;
+                        moveUpChildNode.LeftHeight = currentNode.LeftNode.LeftHeight + 1;
 
                         currentNode.LeftNode = moveUpChildNode;
                     }
@@ -124,10 +135,10 @@ namespace AvlTree {
                     var moveUpNode = currentNode.LeftNode;
 
                     currentNode.LeftNode = moveUpNode.RightNode;
-                    currentNode.LeftChildCount = moveUpNode.RightChildCount;//correct?
+                    currentNode.LeftHeight = moveUpNode.RightHeight;
 
                     moveUpNode.RightNode = currentNode;
-                    moveUpNode.RightChildCount = currentNode.RightChildCount + 1;
+                    moveUpNode.RightHeight = currentNode.RightHeight + 1;
 
                     currentNode = moveUpNode;
                     #endregion
@@ -138,10 +149,10 @@ namespace AvlTree {
                     var moveUpNode = currentNode.RightNode;
 
                     currentNode.RightNode = moveUpNode.LeftNode;
-                    currentNode.RightChildCount = moveUpNode.LeftChildCount;//correct?
+                    currentNode.RightHeight = moveUpNode.LeftHeight;
 
                     moveUpNode.LeftNode = currentNode;
-                    moveUpNode.LeftChildCount = currentNode.LeftChildCount + 1;
+                    moveUpNode.LeftHeight = currentNode.LeftHeight + 1;
 
                     currentNode = moveUpNode;
                     #endregion
@@ -154,10 +165,10 @@ namespace AvlTree {
                     if (moveUpChildNode != null) {
                         // disconnect the move up node
                         currentNode.RightNode.LeftNode = moveUpChildNode.RightNode;
-                        currentNode.RightNode.LeftChildCount = moveUpChildNode.RightChildCount;//correct?
+                        currentNode.RightNode.LeftHeight = moveUpChildNode.RightHeight;
 
                         moveUpChildNode.RightNode = currentNode.RightNode;
-                        moveUpChildNode.RightChildCount = currentNode.RightNode.RightChildCount + 1;
+                        moveUpChildNode.RightHeight = currentNode.RightNode.RightHeight + 1;
 
                         currentNode.RightNode = moveUpChildNode;
                     }
@@ -166,10 +177,10 @@ namespace AvlTree {
                     var moveUpNode = currentNode.RightNode;
 
                     currentNode.RightNode = moveUpNode.LeftNode;
-                    currentNode.RightChildCount = moveUpNode.LeftChildCount;//correct?
+                    currentNode.RightHeight = moveUpNode.LeftHeight;
 
                     moveUpNode.LeftNode = currentNode;
-                    moveUpNode.LeftChildCount = currentNode.LeftChildCount + 1;
+                    moveUpNode.LeftHeight = currentNode.LeftHeight + 1;
 
                     currentNode = moveUpNode;
                     #endregion
@@ -179,13 +190,19 @@ namespace AvlTree {
             return currentNode;
         }
 
-        class NodeInfo {
-            public TreeNode<T> Node;
-            public string Text;
-            public int StartPos;
-            public int Size { get { return Text.Length; } }
-            public int EndPos { get { return StartPos + Size; } set { StartPos = value - Size; } }
-            public NodeInfo Parent, Left, Right;
+        private void IncreseHeight(TreeNode<T> node, Direction direction) {
+            if (Direction == Direction.None) {
+                Direction = direction;
+            }
+
+            if (Direction == direction) {
+                if (Direction == Direction.Left) {
+                    node.LeftHeight++;
+                }
+                else {
+                    node.RightHeight++;
+                }
+            }
         }
 
         public void Print(TreeNode<T> root = null, string textFormat = "0", int spacing = 1, int topMargin = 2, int leftMargin = 2) {
@@ -247,13 +264,31 @@ namespace AvlTree {
             if (right < 0) right = left + s.Length;
             while (Console.CursorLeft < right) Console.Write(s);
         }
+
+        class NodeInfo {
+            public TreeNode<T> Node;
+            public string Text;
+            public int StartPos;
+            public int Size { get { return Text.Length; } }
+            public int EndPos { get { return StartPos + Size; } set { StartPos = value - Size; } }
+            public NodeInfo Parent, Left, Right;
+        }
     }
 
     public class TreeNode<T> where T : IComparable<T> {
-        public TreeNode<T> ParentNode, LeftNode, RightNode;
+        public TreeNode<T> LeftNode, RightNode;
         public T Data;
-        public int LeftChildCount;
-        public int RightChildCount;
+        /*public int Height { get {
+                return 1 + Math.Max(Math.Max(LeftNode.LeftHeight, RightHeight), Math.Max(RightNode.LeftHeight, RightNode.RightHeight));
+            }
+        }*/
+        public int Height {
+            get {
+                return 1 + Math.Max(LeftHeight, RightHeight);
+            }
+        }
+        public int LeftHeight;
+        public int RightHeight;
         //public int ChildCount;
 
         public TreeNode() { }
@@ -262,5 +297,11 @@ namespace AvlTree {
             //ParentNode = parentNode;
             Data = data;
         }
+    }
+
+    public enum Direction {
+        None,
+        Left,
+        Right
     }
 }
