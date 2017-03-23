@@ -41,19 +41,32 @@ namespace PracticeTest {
             #region Opdracht 2
             var sll = new EvenOddSLL();
 
-            /*sll.Add(0, 1);
-            sll.Add(1, 2);
-            sll.Add(2, 4);
-            sll.Add(3, 5);
-            sll.Add(2, 3);
+            sll.Add(0, 0);
+            sll.Add(1, 1);
+            sll.Add(2, 2);
+            sll.Add(3, 3);
+            sll.Add(4, 4);
+            sll.Add(5, 5);
 
-            Console.WriteLine(sll.Get(0));
-            Console.WriteLine(sll.Get(1));
-            Console.WriteLine(sll.Get(2));
+            //sll.Add(0, 0);
+            //sll.Add(1, 2);
+            //sll.Add(2, 3);
+            //sll.Add(3, 4);
+            //sll.Add(1, 1);
+
+            //sll.Add(0, 1);
+            //sll.Add(1, 2);
+            //sll.Add(2, 4);
+            //sll.Add(3, 5);
+            //sll.Add(2, 3);
+
+            //Console.WriteLine(sll.Get(0));
+            //Console.WriteLine(sll.Get(1));
+            //Console.WriteLine(sll.Get(2));
 
             Console.WriteLine(sll.ToString());
             Console.WriteLine(sll.ToStringEven());
-            Console.WriteLine(sll.ToStringOdd());*/
+            Console.WriteLine(sll.ToStringOdd());
 
             #endregion
             #region Opdracht 3
@@ -181,22 +194,48 @@ namespace PracticeTest {
     }
 
     class EvenOddSLL {
-        private Node _header = new Node(0);
-        private Node _headerEven = new Node(0);
-        private Node _headerOdd = new Node(0);
+        private Node _header = new Node(-1);
+        //private Node _headerEven = new Node(0);
+        //private Node _headerOdd = new Node(0);
 
         public void Add(int index, int data) {
-            var temp = _header;
-            var i = 0;
-            for (; i < index; i++) {
+            Node temp;
+
+            if (index > 1 && index % 2 == 0) {
+                temp = _header.Next;
+            }
+            else {
+                temp = _header;
+            }
+
+            for (var i = 0; i < (index -1) / 2; i++) {
+                temp = temp.NextOddOrEven;
+            }
+
+            if (index > 2 && (index + 1) % 2 != 0) {
                 temp = temp.Next;
             }
 
             var newNode = new Node(data);
             newNode.Next = temp.Next;
-            temp.Next = newNode;
 
-            if ((i + 1) % 2 == 0) {
+            if (index > 0) {
+                temp.NextOddOrEven = newNode;
+            }
+            else {
+                temp.Next = newNode;
+            }
+
+            //var temp = _header;
+            //var i = 0;
+            //for (; i < index; i++) {
+            //    temp = temp.Next;
+            //}
+
+
+
+
+            /*if ((i + 1) % 2 == 0) {
                 var tempEven = _headerEven;
                 for (var j = 0; j < i / 2; j++) {
                     tempEven = tempEven.NextOddOrEven;
@@ -213,26 +252,26 @@ namespace PracticeTest {
 
                 //newNode.NextOddOrEven = tempOdd.Next?.NextOddOrEven;
                 tempOdd.Next.NextOddOrEven = newNode.Next;
-            }
+            }*/
 
             return;
         }
 
-        public int Get(int index) {
-            Node temp;
-            if ((index + 1) % 2 == 0) {
-                temp = _headerEven;
-            }
-            else {
-                temp = _headerOdd;
-            }
+        //public int Get(int index) {
+        //    Node temp;
+        //    if ((index + 1) % 2 == 0) {
+        //        temp = _headerEven;
+        //    }
+        //    else {
+        //        temp = _headerOdd;
+        //    }
 
-            for (var i = 0; i < index / 2; i++) {
-                temp = temp.NextOddOrEven;
-            }
+        //    for (var i = 0; i < index / 2; i++) {
+        //        temp = temp.NextOddOrEven;
+        //    }
 
-            return temp.NextOddOrEven.Data;
-        }
+        //    return temp.NextOddOrEven.Data;
+        //}
 
         public bool Remove(int index) {
             var temp = _header;
@@ -263,7 +302,7 @@ namespace PracticeTest {
             // alleen de even-lijst 
             var sb = new StringBuilder();
 
-            var currentItem = _headerEven.NextOddOrEven;
+            var currentItem = _header.Next.NextOddOrEven;
             //var currentItem = _header.NextOddOrEven;
             while (currentItem != null) {
                 sb.Append(currentItem.Data + ", ");
@@ -279,7 +318,7 @@ namespace PracticeTest {
             // print  alleen de odd-lijst 
             var sb = new StringBuilder();
 
-            var currentItem = _headerOdd.NextOddOrEven;
+            var currentItem = _header.NextOddOrEven;
             //var currentItem = _header.Next;
             while (currentItem != null) {
                 sb.Append(currentItem.Data + ", ");
