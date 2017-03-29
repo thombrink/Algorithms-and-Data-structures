@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SieveOfEratosthenes", "SieveOfEratosthenes\SieveOfEratosthenes.csproj", "{78A77691-2C51-4578-9E37-D166069C6D30}"
 EndProject
@@ -64,6 +64,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hash", "Hash\Hash.csproj", "{ECF8173B-2CAE-429C-AD3F-F0EAC2D3EC34}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeTest", "PracticeTest\PracticeTest.csproj", "{4334B405-44C6-4BDA-B120-D7A589C5A066}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hashing3D", "Hashing3D", "{6F7D2F59-705E-49F6-8589-F518CE463C9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashing3D", "Hashing3D\Hashing3D.csproj", "{D29E9078-7D74-4DDC-A718-8B065D727866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hashing3DTest", "Hashing3DTest\Hashing3DTest.csproj", "{E99840A7-0A77-49ED-ACBB-6A5437E54BAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,8 +201,20 @@ Global
 		{4334B405-44C6-4BDA-B120-D7A589C5A066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4334B405-44C6-4BDA-B120-D7A589C5A066}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4334B405-44C6-4BDA-B120-D7A589C5A066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29E9078-7D74-4DDC-A718-8B065D727866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29E9078-7D74-4DDC-A718-8B065D727866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29E9078-7D74-4DDC-A718-8B065D727866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29E9078-7D74-4DDC-A718-8B065D727866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E99840A7-0A77-49ED-ACBB-6A5437E54BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E99840A7-0A77-49ED-ACBB-6A5437E54BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E99840A7-0A77-49ED-ACBB-6A5437E54BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E99840A7-0A77-49ED-ACBB-6A5437E54BAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D29E9078-7D74-4DDC-A718-8B065D727866} = {6F7D2F59-705E-49F6-8589-F518CE463C9B}
+		{E99840A7-0A77-49ED-ACBB-6A5437E54BAC} = {6F7D2F59-705E-49F6-8589-F518CE463C9B}
 	EndGlobalSection
 EndGlobal
