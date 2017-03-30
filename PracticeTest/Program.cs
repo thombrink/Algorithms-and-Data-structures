@@ -94,12 +94,18 @@ namespace PracticeTest {
             #endregion
             #region Opdracht 3
             var tree = new BinaryTree();
-            tree.AddNode(6);
-            tree.AddNode(2);
-            tree.AddNode(8);
-            tree.AddNode(1);
-            tree.AddNode(4);
+            //tree.AddNode(6);
+            //tree.AddNode(2);
+            //tree.AddNode(8);
+            //tree.AddNode(1);
+            //tree.AddNode(4);
+            //tree.AddNode(3);
+            tree.AddNode(5);
             tree.AddNode(3);
+            tree.AddNode(6);
+            tree.AddNode(4);
+            tree.AddNode(2);
+            tree.AddNode(7);
 
             //tree.PrintTree();
 

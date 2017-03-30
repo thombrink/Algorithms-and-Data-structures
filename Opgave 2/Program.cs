@@ -36,13 +36,21 @@ namespace Opgave_2 {
             //Console.WriteLine(list.Get(3));
             //Console.WriteLine(list.Get(4)); <-- gaat hier pas mis
 
+            Console.WriteLine("Does not work as expected! Look at the practice test example");
+
             var tree = new BinaryTree();
-            tree.AddNode(6);
-            tree.AddNode(2);
-            tree.AddNode(8);
-            tree.AddNode(1);
-            tree.AddNode(4);
+            //tree.AddNode(6);
+            //tree.AddNode(2);
+            //tree.AddNode(8);
+            //tree.AddNode(1);
+            //tree.AddNode(4);
+            //tree.AddNode(3);
+            tree.AddNode(5);
             tree.AddNode(3);
+            tree.AddNode(6);
+            tree.AddNode(4);
+            tree.AddNode(2);
+            tree.AddNode(7);
 
             Console.WriteLine(tree.ToString());
 

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 namespace BinaryTree {
     class Program {
         static void Main(string[] args) {
+            Console.WriteLine("Does not function correctly! Look at the practice test example");
+            Console.ReadKey();
+
             var testTree1 = new BinaryTree();
             testTree1.AddNode1(5);
             testTree1.AddNode1(3);
@@ -26,6 +29,8 @@ namespace BinaryTree {
 
             Console.WriteLine(testTree2.GetLeaves());
 
+            Console.WriteLine(testTree2.GetTree());
+
             Console.ReadKey();
         }
     }
@@ -35,6 +40,9 @@ namespace BinaryTree {
     }
 
     public class BinaryTree {
+        private int _currRow = 0;
+        private int _lineWidth = Console.WindowWidth;
+
         public TreeNode<uint> RootNode { get; set; } = new TreeNode<uint>();
 
         public void AddNode1(uint value) {
@@ -112,6 +120,62 @@ namespace BinaryTree {
             }
 
             return leaveCount;
+        }
+
+        public string GetTree() {
+            var sb = new StringBuilder(new String(' ', _lineWidth));
+            GetTree(sb, RootNode, _lineWidth / 2, 0);
+            return sb.ToString();
+        }
+
+        private void GetTree(StringBuilder sb, TreeNode<uint> currentNode, int x, int row) {
+            if (_currRow < row) {
+                sb.Append(new String(' ', _lineWidth));
+                _currRow++;
+            }
+
+            var currRow = row * _lineWidth;
+
+            var parentIndex = currRow + x;
+            sb[parentIndex - 1] = '[';
+            sb[parentIndex] = currentNode.Data.ToString().ToCharArray()[0];
+            sb[parentIndex + 1] = ']';
+
+            sb.Replace("   ", $"[{currentNode.Data}]", parentIndex - 1, 3);
+
+            //sb[currRow + x] = $"[{currentNode.Data}]";
+            //Console.SetCursorPosition(x, level);
+            //Console.Write($"[{currentNode.Data}]");
+
+            if (currentNode.LeftNode != null) {
+                if (_currRow < row + 1) {
+                    sb.Append(new String(' ', _lineWidth));
+                    _currRow++;
+                }
+
+                currRow = (row + 1) * _lineWidth;
+
+                sb[currRow + x - 3] = '/';
+
+                //Console.SetCursorPosition(x - 3, level + 1);
+                //Console.Write("/");
+                GetTree(sb, currentNode.LeftNode, x - 6, row + 2);
+
+            }
+            if (currentNode.RightNode != null) {
+                if (_currRow < row + 1) {
+                    sb.Append(new String(' ', _lineWidth));
+                    _currRow++;
+                }
+
+                currRow = (row + 1) * _lineWidth;
+
+                sb[currRow + x + 3] = '\\';
+
+                //Console.SetCursorPosition(x + 5, level + 1);
+                //Console.Write(@"\");
+                GetTree(sb, currentNode.RightNode, x + 6, row + 2);
+            }
         }
     }
 

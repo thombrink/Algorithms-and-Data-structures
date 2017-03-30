@@ -19,11 +19,9 @@ namespace Tree {
             var f = new TreeNode<char> { Data = 'f', NextSibling = g };
             var b = new TreeNode<char> { Data = 'b', FirstChild = f, NextSibling = c };
             var a = new TreeNode<char> { Data = 'a', FirstChild = b };
-            charTree.RootNode = a;
+            charTree.Root = a;
 
-            Console.WriteLine(charTree.PrintPreOrder1());
-            Console.WriteLine(charTree.PrintPreOrder2(charTree.RootNode));
-            Console.WriteLine(charTree.PrintPreOrder2());
+            charTree.PrintPreOrder();
             Console.WriteLine(charTree.GetSize());
 
             //charTree.AddFistChild('b');
@@ -37,95 +35,45 @@ namespace Tree {
     }
 
     public class GeneralTree<T> {
-        //private TreeNode<T> _rootNode, _currentNode;
-        public TreeNode<T> RootNode { get; set; } = new TreeNode<T>();
+        public TreeNode<T> Root;
 
-        public GeneralTree() {
-            //_currentNode = new TreeNode<T>();
-            //_rootNode = new TreeNode<T>() { NextSibling = _currentNode };
-        }
-
-        /*public TreeNode<T> AddFistChild(T data) {
-            var tempNode = _currentNode;
-            _currentNode.FirstChild = new TreeNode<T> { Data = data };
-            //return _currentNode = _currentNode.FirstChild;
-            return _currentNode = _currentNode.FirstChild;
-        }
-
-        public TreeNode<T> AddNextSibling(T data) {
-            var tempNode = _currentNode;
-            _currentNode.NextSibling = new TreeNode<T> { Data = data };
-            _currentNode = _currentNode.NextSibling;
-            return tempNode;
-        }*/
-
-        public string PrintPreOrder1() {
-            var sb = new StringBuilder(RootNode.Data.ToString());
-
-            var nextStack = new Stack<TreeNode<T>>();
-
-            TreeNode<T> currentNode = RootNode;
-            TreeNode<T> nextNode;
-            while ((nextNode = currentNode?.FirstChild ?? currentNode?.NextSibling ?? (nextStack.Any() ? nextStack.Pop() : null)) != null) {
-                sb.Append(nextNode.Data.ToString());
-
-                if(currentNode.FirstChild != null && currentNode.NextSibling != null) {
-                    nextStack.Push(currentNode.NextSibling);
-                }
-
-                currentNode = nextNode;
-            }
-
-            return sb.ToString();
-        }
-
-        public string PrintPreOrder2() {
-            return PrintPreOrder2(RootNode);
-        }
-
-        public string PrintPreOrder2(TreeNode<T> currentNode) {
-            var result = currentNode.Data.ToString();
-
-            if (currentNode.FirstChild != null) {
-                result += PrintPreOrder2(currentNode.FirstChild);
-            }
-
-            if (currentNode.NextSibling != null) {
-                result += PrintPreOrder2(currentNode.NextSibling);
-            }
-
-            return result;
+        public void PrintPreOrder() {
+            Root.PrintPreOrder();
         }
 
         public int GetSize() {
-            return GetSize(RootNode);
-        }
-
-        public int GetSize(TreeNode<T> currentNode) {
-            var result = 1;
-
-            if (currentNode.FirstChild != null) {
-                result += GetSize(currentNode.FirstChild);
-            }
-
-            if (currentNode.NextSibling != null) {
-                result += GetSize(currentNode.NextSibling);
-            }
-
-            return result;
+            return Root.GetSize();
         }
     }
 
     public class TreeNode<T> {
-        //private TreeNode<T> _firstChild, _nextSibling;
-        //private T _data;
-        public TreeNode<T> FirstChild, NextSibling;
+        public TreeNode<T> FirstChild;
+        public TreeNode<T> NextSibling;
+
         public T Data;
 
-        /*public TreeNode(TreeNode<T> firstChild, TreeNode<T> nextSibling, T data) {
-            _firstChild = firstChild;
-            _nextSibling = nextSibling;
-            _data = data;
-        }*/
+        public TreeNode() {
+        }
+
+        public TreeNode(T data) {
+            Data = data;
+        }
+
+        public void PrintPreOrder() {
+            Console.Write(this);
+            FirstChild?.PrintPreOrder();
+            NextSibling?.PrintPreOrder();
+        }
+
+        public override string ToString() {
+            return Data.ToString();
+        }
+
+        public int GetSize() {
+            int size = 1;
+            if (FirstChild != null) size += FirstChild.GetSize();
+            if (NextSibling != null) size += NextSibling.GetSize();
+            return size;
+        }
     }
 }
