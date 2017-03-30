@@ -15,9 +15,11 @@ namespace InsertionSort
             Console.ReadKey();
         }
 
-        public static int[] InsertionSort(int[] a)
+        public static T[] InsertionSort<T>(T[] a, int left = 0, int right = -1) where T : IComparable
         {
-            for (int p = 1; p < a.Length; p++)
+            right = right == -1 ? a.Length -1 : right;
+
+            for (int p = left + 1; p <= right; p++)
             {
                 var tmp = a[p];
                 int j = p;

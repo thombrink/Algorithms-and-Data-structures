@@ -44,15 +44,22 @@ namespace PracticeTest {
             sll.Add(0, 0);
             sll.Add(1, 1);
             sll.Add(2, 2);
+            sll.Add(3, 4);
+            sll.Add(4, 5);
+            sll.Add(5, 6);
+            sll.Add(6, 7);
+            sll.Add(7, 8);
+            sll.Add(8, 9);
+            sll.Add(9, 10);
             sll.Add(3, 3);
-            sll.Add(4, 4);
-            sll.Add(5, 5);
+
 
             //sll.Add(0, 0);
-            //sll.Add(1, 2);
-            //sll.Add(2, 3);
-            //sll.Add(3, 4);
             //sll.Add(1, 1);
+            //sll.Add(2, 2);
+            //sll.Add(3, 3);
+            //sll.Add(4, 4);
+            //sll.Add(5, 5);
 
             //sll.Add(0, 1);
             //sll.Add(1, 2);
@@ -68,6 +75,22 @@ namespace PracticeTest {
             Console.WriteLine(sll.ToStringEven());
             Console.WriteLine(sll.ToStringOdd());
 
+            //LinkedList llist = new LinkedList();
+            //llist.push(11);
+            //llist.push(10);
+            //llist.push(8);
+            //llist.push(6);
+            //llist.push(4);
+            //llist.push(2);
+            //llist.push(0);
+            //Console.WriteLine("Origional Linked List");
+            //llist.printList();
+
+            //llist.segregateEvenOdd();
+
+            //Console.WriteLine("Modified Linked List");
+            //llist.printList();
+
             #endregion
             #region Opdracht 3
             var tree = new BinaryTree();
@@ -78,12 +101,12 @@ namespace PracticeTest {
             tree.AddNode(4);
             tree.AddNode(3);
 
-            tree.PrintTree();
+            //tree.PrintTree();
 
             var almostSmallest = tree.GeefEenNaKleinsteElement();
 
-            //Console.WriteLine(tree.ToString());
-            Console.SetCursorPosition(0, 30);
+            Console.WriteLine(tree.ToString());
+            //Console.SetCursorPosition(0, 30);
             #endregion
             #region Opdracht 4
             var heap = new Heap();
@@ -199,62 +222,26 @@ namespace PracticeTest {
         //private Node _headerOdd = new Node(0);
 
         public void Add(int index, int data) {
-            Node temp;
+            Node temp = _header;
 
-            if (index > 1 && index % 2 == 0) {
-                temp = _header.Next;
-            }
-            else {
-                temp = _header;
-            }
-
-            for (var i = 0; i < (index -1) / 2; i++) {
-                temp = temp.NextOddOrEven;
-            }
-
-            if (index > 2 && (index + 1) % 2 != 0) {
+            var currIndex = 0;
+            while (temp.Next != null && currIndex < index - 1) {
                 temp = temp.Next;
+
+                currIndex++;
             }
 
             var newNode = new Node(data);
-            newNode.Next = temp.Next;
+            newNode.Next = temp.Next?.Next;
 
-            if (index > 0) {
-                temp.NextOddOrEven = newNode;
+            if (temp.Next != null) {
+                temp.Next.Next = newNode;
             }
             else {
                 temp.Next = newNode;
             }
 
-            //var temp = _header;
-            //var i = 0;
-            //for (; i < index; i++) {
-            //    temp = temp.Next;
-            //}
-
-
-
-
-            /*if ((i + 1) % 2 == 0) {
-                var tempEven = _headerEven;
-                for (var j = 0; j < i / 2; j++) {
-                    tempEven = tempEven.NextOddOrEven;
-                }
-
-                //newNode.NextOddOrEven = tempEven.Next?.NextOddOrEven;
-                tempEven.NextOddOrEven = newNode;
-            }
-            else {
-                var tempOdd = _headerOdd;
-                for (var j = 0; j < i / 2; j++) {
-                    tempOdd = tempOdd.NextOddOrEven;
-                }
-
-                //newNode.NextOddOrEven = tempOdd.Next?.NextOddOrEven;
-                tempOdd.Next.NextOddOrEven = newNode.Next;
-            }*/
-
-            return;
+            temp.NextOddOrEven = newNode;
         }
 
         //public int Get(int index) {
@@ -347,8 +334,107 @@ namespace PracticeTest {
         }
     }
 
-    class BinaryTree {
+    class LinkedList {
+        Node head;  // head of list
+
+        /* Linked list Node*/
+        class Node {
+            public int data;
+            public Node next;
+            public Node(int d) {
+                data = d;
+                next = null;
+            }
+        }
+
+        public void segregateEvenOdd() {
+            Node end = head;
+            Node prev = null;
+            Node curr = head;
+
+            /* Get pointer to last Node */
+            while (end.next != null)
+                end = end.next;
+
+            Node new_end = end;
+
+            // Consider all odd nodes before getting first eve node
+            while (curr.data % 2 != 0 && curr != end) {
+                new_end.next = curr;
+                curr = curr.next;
+                new_end.next.next = null;
+                new_end = new_end.next;
+            }
+
+            // do following steps only if there is an even node
+            if (curr.data % 2 == 0) {
+                head = curr;
+
+                // now curr points to first even node
+                while (curr != end) {
+                    if (curr.data % 2 == 0) {
+                        prev = curr;
+                        curr = curr.next;
+                    }
+                    else {
+                        /* Break the link between prev and curr*/
+                        prev.next = curr.next;
+
+                        /* Make next of curr as null */
+                        curr.next = null;
+
+                        /*Move curr to end */
+                        new_end.next = curr;
+
+                        /*Make curr as new end of list */
+                        new_end = curr;
+
+                        /*Update curr pointer */
+                        curr = prev.next;
+                    }
+                }
+            }
+
+            /* We have to set prev before executing rest of this code */
+            else prev = curr;
+
+            if (new_end != end && end.data % 2 != 0) {
+                prev.next = end.next;
+                end.next = null;
+                new_end.next = end;
+            }
+        }
+
+        /*  Given a reference (pointer to pointer) to the head
+            of a list and an int, push a new node on the front
+            of the list. */
+        public void push(int new_data) {
+            /* 1 & 2: Allocate the Node &
+                      Put in the data*/
+            Node new_node = new Node(new_data);
+
+            /* 3. Make next of new Node as head */
+            new_node.next = head;
+
+            /* 4. Move the head to point to new Node */
+            head = new_node;
+        }
+
+        // Utility function to print a linked list
+        public void printList() {
+            Node temp = head;
+            while (temp != null) {
+                Console.WriteLine(temp.data + " ");
+                temp = temp.next;
+            }
+            Console.WriteLine();
+        }
+    }
+
+    public class BinaryTree {
         public TreeNode RootNode { get; set; } = new TreeNode();
+        private int _currRow = 0;
+        private int _lineWidth = Console.WindowWidth;
 
         public void AddNode(int value) {
             if (RootNode.Data == default(uint)) {
@@ -421,6 +507,62 @@ namespace PracticeTest {
             }
         }
 
+        public string GetTree() {
+            var sb = new StringBuilder(new String(' ', _lineWidth));
+            GetTree(sb, RootNode, _lineWidth / 2, 0);
+            return sb.ToString();
+        }
+
+        private void GetTree(StringBuilder sb, TreeNode currentNode, int x, int row) {
+            if (_currRow < row) {
+                sb.Append(new String(' ', _lineWidth));
+                _currRow++;
+            }
+
+            var currRow = row * _lineWidth;
+
+            var parentIndex = currRow + x;
+            sb[parentIndex - 1] = '[';
+            sb[parentIndex] = currentNode.Data.ToString().ToCharArray()[0];
+            sb[parentIndex + 1] = ']';
+
+            sb.Replace("   ", $"[{currentNode.Data}]", parentIndex - 1, 3);
+
+            //sb[currRow + x] = $"[{currentNode.Data}]";
+            //Console.SetCursorPosition(x, level);
+            //Console.Write($"[{currentNode.Data}]");
+
+            if (currentNode.LeftNode != null) {
+                if (_currRow < row + 1) {
+                    sb.Append(new String(' ', _lineWidth));
+                    _currRow++;
+                }
+
+                currRow = (row + 1) * _lineWidth;
+
+                sb[currRow + x - 3] = '/';
+
+                //Console.SetCursorPosition(x - 3, level + 1);
+                //Console.Write("/");
+                GetTree(sb, currentNode.LeftNode, x - 6, row + 2);
+
+            }
+            if (currentNode.RightNode != null) {
+                if (_currRow < row + 1) {
+                    sb.Append(new String(' ', _lineWidth));
+                    _currRow++;
+                }
+
+                currRow = (row + 1) * _lineWidth;
+
+                sb[currRow + x + 3] = '\\';
+
+                //Console.SetCursorPosition(x + 5, level + 1);
+                //Console.Write(@"\");
+                GetTree(sb, currentNode.RightNode, x + 6, row + 2);
+            }
+        }
+
         public int GeefEenNaKleinsteElement() {
             var smallest = int.MaxValue;
             var almostSmallest = int.MaxValue;
@@ -446,9 +588,14 @@ namespace PracticeTest {
             return almostSmallest;
         }
 
-        /*public override string ToString() {
-            return PrintNode(RootNode, Console.WindowWidth / 2, Console.CursorTop);
-        }*/
+        public override string ToString() {
+            //var sb = new StringBuilder(GetTree());
+            // for (var i = _lineWidth; i < sb.Length; i += _lineWidth) {
+            //sb.Append(Environment.NewLine, i, 1);
+            //}
+            //return sb.ToString();
+            return GetTree();
+        }
 
         public class TreeNode {
             public TreeNode LeftNode, RightNode;
@@ -508,6 +655,38 @@ namespace PracticeTest {
                 tree.AddNode(_array[i * 2 + 1]);
             }
             return tree;
+        }
+
+        public override string ToString() {
+            var sb = new StringBuilder();
+
+            sb.Append("#, ");
+
+            for (var i = 1; i < _length; i++) {
+                sb.Append(_array[i] + ", ");
+            }
+
+            for (var i = _length; i < _array.Length; i++) {
+                sb.Append("#, ");
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    class Heap<T> where T : IComparable {
+        T[] _array = new T[10];
+        int _length = 1;
+
+        public void Add(T value) {
+            var i = _length;
+            var pos = i;
+            for (; _array[i / 2].CompareTo(value) > 0 && i > 1; i /= 2) {
+                pos = i / 2;
+                _array[i] = _array[pos];
+            }
+            _array[pos] = value;
+            _length++;
         }
 
         public override string ToString() {
